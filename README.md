@@ -1,3 +1,3 @@
-#About
-___
+About
+---
 Just a Todo app. 
