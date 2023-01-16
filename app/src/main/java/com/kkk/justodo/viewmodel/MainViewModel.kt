@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val repository: Repository) : ViewModel() {
 
     val allItems: LiveData<List<Item>> = repository.allItems.asLiveData()
-    val _allItems = repository.allItemsByCompletion
+    val allItemsByCompletion = repository.allItemsByCompletion.asLiveData()
     var isUpdateEnabled: Boolean = false
     var selectedItemId: Int = 0
 

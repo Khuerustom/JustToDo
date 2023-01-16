@@ -22,7 +22,7 @@ interface Dao {
     fun getAll(): Flow<List<Item>>
 
     @Query("SELECT * FROM todos ORDER BY isDone")
-    fun getAllByCompletion(): LiveData<List<Item>>
+    fun getAllByCompletion(): Flow<List<Item>>
 
     @Query("DELETE FROM todos")
     suspend fun deleteAll()
