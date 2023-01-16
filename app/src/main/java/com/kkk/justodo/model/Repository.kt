@@ -1,25 +1,35 @@
 package com.kkk.justodo.model
 
-import android.app.Application
-import androidx.lifecycle.LiveData
+import androidx.annotation.WorkerThread
+import kotlinx.coroutines.flow.Flow
 
-class Repository(application: Application) {
+class Repository(private val dao: Dao) {
 
-    private val db = Database.getDatabase(application)
-    private val dao = db.getDao()
+    val allItems : Flow<List<Item>> = dao.getAll()
+    val _allItems = dao._getAll()
 
+
+    @WorkerThread
     suspend fun insert(i:Item){
         dao.insert(i)
     }
+
+
+    @WorkerThread
     suspend fun update(i:Item){
         dao.update(i)
     }
+
+
+    @WorkerThread
     suspend fun delete(i:Item){
         dao.delete(i)
     }
 
-    fun getAll(): LiveData<List<Item>> {
-        return dao.getAll()
+    
+    @WorkerThread
+    suspend fun deleteAll(){
+        dao.deleteAll()
     }
 
 }

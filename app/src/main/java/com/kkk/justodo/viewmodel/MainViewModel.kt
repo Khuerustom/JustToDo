@@ -1,40 +1,66 @@
 package com.kkk.justodo.viewmodel
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.kkk.justodo.model.Item
 import com.kkk.justodo.model.Repository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainViewModel(application: Application) : AndroidViewModel(application) {
+class MainViewModel(private val repository: Repository) : ViewModel() {
 
-    private val repository = Repository(application)
+    val allItems: LiveData<List<Item>> = repository.allItems.asLiveData()
+    val _allItems = repository._allItems
+    var isUpdateEnabled: Boolean = false
+    var selectedItemId: Int = 0
 
-    var inputText = MutableLiveData<String?>(null)
-
-    fun insert(i: Item) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.insert(i)
+    init {
+        viewModelScope.launch {
+            repository.deleteAll()
         }
     }
 
-    fun update(i: Item){
-        viewModelScope.launch(Dispatchers.IO){
+    var inputText = MutableLiveData<String?>(null)
+
+    fun insertOrUpdate() {
+        when (isUpdateEnabled) {
+            true -> viewModelScope.launch(Dispatchers.IO) {
+                repository.update(Item(selectedItemId, inputText.value.toString()))
+                isUpdateEnabled = false
+                selectedItemId = 0
+            }
+            false -> viewModelScope.launch(Dispatchers.IO) {
+                repository.insert(Item(inputText.value.toString()))
+            }
+        }
+    }
+
+    fun insert() {
+        viewModelScope.launch(Dispatchers.IO) {
+
+            repository.insert(Item(inputText.value.toString()))
+        }
+    }
+
+    fun update(i: Item) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.update(i)
         }
     }
 
-    fun delete(i: Item){
-        viewModelScope.launch(Dispatchers.IO){
+    fun delete(i: Item) {
+        viewModelScope.launch(Dispatchers.IO) {
             repository.delete(i)
         }
     }
 
-    fun getAll(): LiveData<List<Item>> {
-        return repository.getAll()
+}
+
+class MainViewModelFactory(private val repository: Repository) : ViewModelProvider.Factory {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
+            @Suppress("UNCHECKED_CAST")
+            return MainViewModel(repository) as T
+        }
+        throw IllegalArgumentException("Unknown ViewModel class")
     }
 }

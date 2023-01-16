@@ -45,6 +45,7 @@
             android:id="@+id/btnSubmit"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:onClick="@{()-> viewModel.insertOrUpdate()}"
             android:src="@android:drawable/alert_dark_frame"
             app:layout_constraintBottom_toBottomOf="@+id/etTxt"
             app:layout_constraintDimensionRatio="h,1:1"

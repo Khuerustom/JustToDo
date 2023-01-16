@@ -14,10 +14,10 @@ class MainAdapter(private val clickListener: IClickListener): ListAdapter<Item, 
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        val binding = ItemHolderBinding.inflate(LayoutInflater.from(parent.context))
+        val binding = ItemHolderBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         val holder = ItemHolder(binding)
         binding.root.setOnClickListener {
-            clickListener.onClickRoot(currentList[holder.adapterPosition].body)
+            clickListener.onClickRoot(currentList[holder.adapterPosition])
         }
         return holder
     }
@@ -29,5 +29,5 @@ class MainAdapter(private val clickListener: IClickListener): ListAdapter<Item, 
 }
 
 interface IClickListener {
-    fun onClickRoot(i: String)
+    fun onClickRoot(i: Item)
 }

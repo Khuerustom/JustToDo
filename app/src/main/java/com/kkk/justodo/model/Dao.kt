@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 
 @androidx.room.Dao
 interface Dao {
@@ -18,5 +19,11 @@ interface Dao {
     suspend fun delete(i: Item)
 
     @Query("SELECT * FROM todos")
-    fun getAll(): LiveData<List<Item>>
+    fun getAll(): Flow<List<Item>>
+
+    @Query("SELECT * FROM todos")
+    fun _getAll(): LiveData<List<Item>>
+
+    @Query("DELETE FROM todos")
+    suspend fun deleteAll()
 }
