@@ -7,14 +7,16 @@ import androidx.room.PrimaryKey
 data class Item(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    var body: String,
-    var isImportant: Int = 0,
-    var isDone: Int = 0
+    var body: String = "Default",
+    var isImportant: Boolean = false,
+    var isDone:Boolean  = false
 ){
 
     constructor(
-        body: String
-    ): this(0, body = body, 0, 0)
+        justBody: String
+    ): this(body = justBody)
 
-    constructor( id: Int): this(id, "Dummy", 0, 0)
+    constructor( id: Int): this(id = id, body ="Dummy")
+
+    constructor(): this(id=0)
 }

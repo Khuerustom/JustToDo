@@ -9,15 +9,15 @@ import kotlinx.coroutines.launch
 class MainViewModel(private val repository: Repository) : ViewModel() {
 
     val allItems: LiveData<List<Item>> = repository.allItems.asLiveData()
-    val _allItems = repository._allItems
+    val _allItems = repository.allItemsByCompletion
     var isUpdateEnabled: Boolean = false
     var selectedItemId: Int = 0
 
-    init {
+    /*init {
         viewModelScope.launch {
             repository.deleteAll()
         }
-    }
+    }*/
 
     var inputText = MutableLiveData<String?>(null)
 

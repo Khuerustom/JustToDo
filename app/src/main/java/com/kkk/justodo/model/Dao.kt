@@ -21,8 +21,8 @@ interface Dao {
     @Query("SELECT * FROM todos")
     fun getAll(): Flow<List<Item>>
 
-    @Query("SELECT * FROM todos")
-    fun _getAll(): LiveData<List<Item>>
+    @Query("SELECT * FROM todos ORDER BY isDone")
+    fun getAllByCompletion(): LiveData<List<Item>>
 
     @Query("DELETE FROM todos")
     suspend fun deleteAll()
