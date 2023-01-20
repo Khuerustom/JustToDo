@@ -10,6 +10,7 @@ Purpose
 Tech stack
 ---
 - Room Database Library
+- MVVM architecture
 
 Todos
 ---
