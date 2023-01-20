@@ -10,3 +10,8 @@ Purpose
 Tech stack
 ---
 - Room Database Library
+
+Todos
+---
+- Theming 
+- Recyclerview Gesture 
